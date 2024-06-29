@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+
+
+{% block content %}
+
+<h1 class="middle">Profile Page Edit</h1>
+<form class="middle" method="post" action="{% url 'users:profile-edit' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{form|crispy}}
+
+    <button class="btn1 btn-outline-primary">save changes</button>
+</form>
+
+{% endblock %}

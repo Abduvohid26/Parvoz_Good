@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Author Add Page{% endblock title %}
+{% block content %}
+<h1 class="middle mt-3 mb-3">Author Add</h1>
+<form class="middle-form" action="{% url 'books:author_add' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{form|crispy}}
+    <button type="submit">Send</button>
+</form>
+{% endblock content %}

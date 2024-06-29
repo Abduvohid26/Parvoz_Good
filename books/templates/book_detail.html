@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Book Detail{% endblock title %}
+{% block content %}
+<h1 class="middle mt-3 mb-3">Book Detail</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3 mb-4">
+            <div class="card h-100">
+                <img src="{{ book.cover_pic.url }}" class="card-img-top" alt="{{ book.title }} cover">
+                <div class="card-body">
+                    <h5 class="card-title">{{ book.title }}</h5>
+                    <p class="card-text">{{ book.description | slice:100 }}</p>
+                </div>
+            </div> 
+        </div>
+    </div>
+</div>
+<h3 class="middle">Comment Add</h3>
+<form class="middle-form" action="{% url 'books:book_comment' id=book.id %}" method="post">
+    {% csrf_token %}
+    {{form|crispy}}
+    <button type="submit">Send</button>
+</form>
+{% if book.comments.exists %}
+    <h4 style="margin-top: 20px;" class="middle">Comments</h4> <hr>
+    {% for comment in book.comments.all %}
+        <div class="row mb-3 middle">
+            <div class="col-1 me-3">
+                <img style="width: 50px; height: 50px; border-radius: 50%;" class="small-profile-pic" src="{{ comment.user.profile_pic.url }}">
+            </div>
+            <div class="col-7">
+                <b>{{ comment.user.username }}</b> rated it {{ comment.star_given }} stars <span class="fw-lighter">{{ comment.created_at }}</span>
+                <p class="mt-2 font-monospace">{{ comment.comment }}</p>
+            </div>
+        </div>
+    {% endfor %}
+{% endif %}
+
+{% endblock content %}
